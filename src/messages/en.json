@@ -1,0 +1,79 @@
+{
+  "common": {
+    "brandName": "Bhagwn Solutions",
+    "adminPortal": "Admin Portal",
+    "systemOnline": "System Online",
+    "signOut": "Sign Out",
+    "logOut": "Log Out",
+    "cancel": "Cancel",
+    "save": "Save",
+    "language": "Language",
+    "english": "English",
+    "hindi": "हिंदी",
+    "searchPlaceholder": "Search members, payouts, transactions...",
+    "managementMenu": "Management Menu"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "members": "Members",
+    "walletPayouts": "Wallet & Payouts",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "welcome": "Welcome back, Rajesh! 👋",
+    "subtitle": "Bhagwn Solutions network is running smoothly. You have 18 pending withdrawals awaiting your review today.",
+    "processPayouts": "Process Payouts",
+    "manageMembers": "Manage Members",
+    "totalMembers": "Total Members",
+    "pendingWithdrawals": "Pending Withdrawals",
+    "totalPayouts": "Total Payouts Issued",
+    "openTickets": "Open Support Tickets",
+    "recentActivity": "Recent Platform Activity",
+    "recentActivitySub": "Live feed of member registrations, payouts, and KYC requests",
+    "viewAll": "View All Activity",
+    "systemOperations": "System Operations"
+  },
+  "members": {
+    "title": "Member Management",
+    "subtitle": "Comprehensive list of active network leaders, partners, and sponsored members.",
+    "searchPlaceholder": "Search by member name, email, rank, sponsor...",
+    "filterStatus": "Filter Status:",
+    "all": "All",
+    "active": "Active",
+    "inactive": "Inactive",
+    "viewDetails": "View Details"
+  },
+  "payouts": {
+    "title": "Wallet & Payout Management",
+    "subtitle": "Review financial transactions, issue member withdrawals, and audit commissions.",
+    "pendingWithdrawals": "Pending Withdrawals",
+    "totalApprovedToday": "Total Approved Today",
+    "bonusesDisbursed": "Matching Bonuses Disbursed",
+    "approve": "Approve",
+    "reject": "Reject",
+    "allTypes": "All",
+    "withdrawals": "Withdrawal",
+    "deposits": "Deposit",
+    "bonuses": "Bonus"
+  },
+  "settings": {
+    "title": "Admin & Platform Settings",
+    "subtitle": "Manage your administrator credentials, system security, and platform parameters.",
+    "adminProfile": "Admin Profile",
+    "platformParameters": "Platform Parameters",
+    "fullName": "Full Name",
+    "adminEmail": "Admin Email Address",
+    "platformName": "Platform Name",
+    "supportEmail": "Support Contact Email",
+    "saveProfile": "Save Profile",
+    "saveConfig": "Save Configuration"
+  },
+  "login": {
+    "title": "ADMIN PORTAL LOGIN",
+    "subtitle": "Enter your credentials to access management controls",
+    "emailLabel": "Admin Email Address / ID",
+    "passwordLabel": "Password",
+    "signInBtn": "Sign In to Admin Portal",
+    "demoCredentials": "Demo Admin Credentials Pre-filled"
+  }
+}

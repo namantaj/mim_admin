@@ -1,0 +1,79 @@
+{
+  "common": {
+    "brandName": "भगवान सॉल्यूशंस",
+    "adminPortal": "एडमिन पोर्टल",
+    "systemOnline": "सिस्टम ऑनलाइन",
+    "signOut": "साइन आउट",
+    "logOut": "लॉग आउट",
+    "cancel": "रद्द करें",
+    "save": "सहेजें",
+    "language": "भाषा",
+    "english": "English",
+    "hindi": "हिंदी",
+    "searchPlaceholder": "सदस्य, निकासी, लेनदेन खोजें...",
+    "managementMenu": "प्रबंधन मेनू"
+  },
+  "nav": {
+    "dashboard": "डैशबोर्ड",
+    "members": "सदस्य",
+    "walletPayouts": "वॉलेट और भुगतान",
+    "settings": "सेटिंग्स"
+  },
+  "dashboard": {
+    "welcome": "वापसी पर स्वागत है, राजेश! 👋",
+    "subtitle": "भगवान सॉल्यूशंस नेटवर्क सुचारू रूप से चल रहा है। आज आपकी समीक्षा के लिए 18 लंबित निकासी हैं।",
+    "processPayouts": "भुगतान प्रक्रिया करें",
+    "manageMembers": "सदस्य प्रबंधित करें",
+    "totalMembers": "कुल सदस्य",
+    "pendingWithdrawals": "लंबित निकासी",
+    "totalPayouts": "कुल जारी भुगतान",
+    "openTickets": "खुले सहायता टिकट",
+    "recentActivity": "हाल की प्लेटफ़ॉर्म गतिविधि",
+    "recentActivitySub": "सदस्य पंजीकरण, भुगतान और केवाईसी अनुरोधों का सीधा फीड",
+    "viewAll": "सभी गतिविधि देखें",
+    "systemOperations": "सिस्टम संचालन"
+  },
+  "members": {
+    "title": "सदस्य प्रबंधन",
+    "subtitle": "सक्रिय नेटवर्क नेताओं, भागीदारों और प्रायोजित सदस्यों की विस्तृत सूची।",
+    "searchPlaceholder": "सदस्य के नाम, ईमेल, रैंक, प्रायोजक द्वारा खोजें...",
+    "filterStatus": "स्थिति फ़िल्टर:",
+    "all": "सभी",
+    "active": "सक्रिय",
+    "inactive": "निष्क्रिय",
+    "viewDetails": "विवरण देखें"
+  },
+  "payouts": {
+    "title": "वॉलेट और भुगतान प्रबंधन",
+    "subtitle": "वित्तीय लेनदेन की समीक्षा करें, सदस्य निकासी जारी करें और कमीशन का ऑडिट करें।",
+    "pendingWithdrawals": "लंबित निकासी",
+    "totalApprovedToday": "आज कुल स्वीकृत",
+    "bonusesDisbursed": "मैचिंग बोनस वितरित",
+    "approve": "स्वीकृत करें",
+    "reject": "अस्वीकृत करें",
+    "allTypes": "सभी",
+    "withdrawals": "निकासी",
+    "deposits": "जमा",
+    "bonuses": "बोनस"
+  },
+  "settings": {
+    "title": "एडमिन और प्लेटफॉर्म सेटिंग्स",
+    "subtitle": "अपने प्रशासक क्रेडेंशियल, सिस्टम सुरक्षा और प्लेटफ़ॉर्म मापदंडों को प्रबंधित करें।",
+    "adminProfile": "एडमिन प्रोफाइल",
+    "platformParameters": "प्लेटफ़ॉर्म पैरामीटर",
+    "fullName": "पूरा नाम",
+    "adminEmail": "एडमिन ईमेल पता",
+    "platformName": "प्लेटफॉर्म का नाम",
+    "supportEmail": "सहायता संपर्क ईमेल",
+    "saveProfile": "प्रोफ़ाइल सहेजें",
+    "saveConfig": "कॉन्फ़िगरेशन सहेजें"
+  },
+  "login": {
+    "title": "एडमिन पोर्टल लॉगिन",
+    "subtitle": "प्रबंधन नियंत्रण तक पहुँचने के लिए अपने क्रेडेंशियल दर्ज करें",
+    "emailLabel": "एडमिन ईमेल पता / आईडी",
+    "passwordLabel": "पासवर्ड",
+    "signInBtn": "एडमिन पोर्टल में साइन इन करें",
+    "demoCredentials": "डेमो एडमिन क्रेडेंशियल पहले से भरे हुए हैं"
+  }
+}
