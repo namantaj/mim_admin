@@ -16,11 +16,25 @@
   "nav": {
     "dashboard": "Dashboard",
     "members": "Members",
+    "paymentApproval": "Payment Approval",
     "walletPayouts": "Wallet & Payouts",
+    "profileSettings": "Profile Settings",
     "settings": "Settings"
   },
+  "profile": {
+    "title": "Admin Profile & Settings",
+    "subtitle": "Manage your personal administrator credentials, security preferences, and account settings.",
+    "administrator": "Administrator",
+    "personalInfo": "Personal Info",
+    "securityTab": "Security",
+    "accountSettings": "Account Settings",
+    "changePassword": "Change Password",
+    "twoFactor": "Two-Factor Authentication (2FA)",
+    "saveChanges": "Save Changes",
+    "saveSuccess": "Profile updated successfully!"
+  },
   "dashboard": {
-    "welcome": "Welcome back, Rajesh! 👋",
+    "welcome": "Welcome back, {name}! 👋",
     "subtitle": "Bhagwn Solutions network is running smoothly. You have 18 pending withdrawals awaiting your review today.",
     "processPayouts": "Process Payouts",
     "manageMembers": "Manage Members",

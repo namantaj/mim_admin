@@ -37,9 +37,8 @@ export default function StatCard({ stat }) {
       <div className="mt-3.5 space-y-1.5 relative z-10">
         <div className="w-full bg-[#EAE3D5] h-1.5 rounded-full overflow-hidden">
           <div
-            className={`h-full rounded-full transition-all duration-500 ${
-              isUp ? 'bg-gradient-to-r from-[#28553F] to-emerald-500' : 'bg-gradient-to-r from-[#7A1F2B] to-[#B8953D]'
-            }`}
+            className={`h-full rounded-full transition-all duration-500 ${isUp ? 'bg-gradient-to-r from-[#28553F] to-emerald-500' : 'bg-gradient-to-r from-[#7A1F2B] to-[#B8953D]'
+              }`}
             style={{ width: isUp ? '78%' : '45%' }}
           />
         </div>

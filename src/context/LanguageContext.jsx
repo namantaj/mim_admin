@@ -1,5 +1,3 @@
-'use client';
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import enMessages from '../messages/en.json';
 import hiMessages from '../messages/hi.json';

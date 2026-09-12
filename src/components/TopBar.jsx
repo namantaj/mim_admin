@@ -1,201 +1,214 @@
-'use client';
-
 import React, { useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { 
   Search, 
   Bell, 
-  Sparkles, 
-  Check, 
   ChevronDown, 
   LogOut, 
   User, 
   Settings, 
-  Globe
+  Globe,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { initialAdminProfile } from '../data/mockData';
 import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
+import { useAdmin } from '../context/AdminContext';
+import { supabase } from '../lib/supabase';
 
-export default function TopBar() {
-  const router = useRouter();
+export default function TopBar({ setRoute, showNotifications, setShowNotifications, triggerToast }) {
   const { locale, switchLanguage, t } = useLanguage();
-  const [showNotifications, setShowNotifications] = useState(false);
+  const { darkMode, toggleDarkMode } = useTheme();
+  const { adminName, adminProfile } = useAdmin();
+
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [unreadCount, setUnreadCount] = useState(3);
 
-  const handleLogOut = () => {
+  const notificationsList = [
+    { id: 1, text: "Aarav Sharma requested withdrawal of ₹25,000", time: "12m ago", unread: true },
+    { id: 2, text: "New member registration: Priya Verma sponsored by Vikram", time: "45m ago", unread: true },
+    { id: 3, text: "System daily commission batch auto-reconciled", time: "2h ago", unread: false }
+  ];
+
+  const handleLogOut = async () => {
     setShowUserDropdown(false);
-    router.push('/login');
+    try {
+      await supabase.auth.signOut();
+    } catch (e) {
+      console.error('Logout error:', e);
+    }
+    setRoute('login');
+    if (triggerToast) triggerToast("Logged out successfully");
   };
 
   return (
-    <header className="sticky top-0 right-0 z-20 bg-[#F4F0E6]/85 backdrop-blur-xl border-b border-[#D8D0C1]/80 px-8 py-3.5 flex items-center justify-between shadow-xs">
+    <header className="flex justify-between items-center px-8 z-40 fixed top-0 right-0 md:left-sidebar-width h-[60px] bg-cream/80 dark:bg-[#2B2722]/80 backdrop-blur-md border-b border-sand dark:border-outline-variant transition-colors duration-200">
+      
       {/* Search Input */}
-      <div className="relative w-80 sm:w-96">
-        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#756F66]" />
-        <input
-          type="text"
-          placeholder={t('common.searchPlaceholder')}
-          className="w-full pl-10 pr-12 py-2 text-xs font-medium bg-white/90 border border-[#D8D0C1] rounded-full focus:outline-none focus:ring-2 focus:ring-[#7A1F2B] focus:border-[#7A1F2B] focus:bg-white text-[#211E1A] placeholder-[#756F66]/80 transition-all shadow-inner"
-        />
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-0.5 pointer-events-none">
-          <kbd className="px-1.5 py-0.5 text-[10px] font-mono text-[#756F66] bg-[#F4F0E6] border border-[#D8D0C1] rounded-md shadow-2xs">
-            ⌘K
-          </kbd>
+      <div className="flex-1 flex items-center">
+        <div className="relative w-56 lg:w-72">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-warm-gray text-[20px]">search</span>
+          <input 
+            className="w-full pl-10 pr-4 h-9 bg-bone dark:bg-[#211E1A] border border-sand dark:border-outline-variant rounded-lg text-[13px] focus:outline-none focus:ring-1 focus:ring-primary/20 focus:border-primary/30 placeholder:text-warm-gray/60 text-espresso dark:text-bone transition-colors" 
+            placeholder={t('common.searchPlaceholder')} 
+            type="text"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && triggerToast) {
+                triggerToast(`Searching for "${e.target.value}"`);
+              }
+            }}
+          />
         </div>
       </div>
 
-      {/* Right Actions & User Badge */}
-      <div className="flex items-center gap-4">
-        {/* Language Switcher Pill Toggle */}
-        <div className="flex items-center bg-white border border-[#D8D0C1] p-1 rounded-full shadow-2xs">
-          <Globe className="w-3.5 h-3.5 text-[#7A1F2B] ml-2 mr-1" />
-          <button
-            onClick={() => switchLanguage('en')}
-            className={`px-2.5 py-1 rounded-full text-[11px] font-bold transition-all cursor-pointer ${
-              locale === 'en'
-                ? 'bg-[#7A1F2B] text-white shadow-2xs'
-                : 'text-[#756F66] hover:text-[#211E1A]'
-            }`}
-          >
-            English
-          </button>
-          <button
-            onClick={() => switchLanguage('hi')}
-            className={`px-2.5 py-1 rounded-full text-[11px] font-bold transition-all cursor-pointer ${
-              locale === 'hi'
-                ? 'bg-[#7A1F2B] text-white shadow-2xs'
-                : 'text-[#756F66] hover:text-[#211E1A]'
-            }`}
-          >
-            हिंदी
-          </button>
-        </div>
-
-        {/* System Online Badge */}
-        <div className="hidden lg:flex items-center gap-2 px-3 py-1 bg-[#28553F]/10 border border-[#28553F]/20 rounded-full text-[11px] font-bold text-[#28553F]">
-          <span className="w-2 h-2 rounded-full bg-[#28553F] animate-pulse" />
-          <span>{t('common.systemOnline')}</span>
-        </div>
-
-        {/* Notifications Button & Dropdown */}
+      {/* Right Controls */}
+      <div className="flex items-center gap-4 relative">
+        
+        {/* Notifications trigger */}
         <div className="relative">
-          <button
+          <button 
             onClick={() => {
               setShowNotifications(!showNotifications);
               setShowUserDropdown(false);
             }}
-            className="relative p-2.5 rounded-full text-[#211E1A] bg-white border border-[#D8D0C1] hover:bg-[#EAE3D5] hover:border-[#7A1F2B]/30 transition-all shadow-2xs cursor-pointer active:scale-95"
+            className="w-9 h-9 rounded-lg flex items-center justify-center text-warm-gray hover:text-espresso dark:hover:text-bone hover:bg-ivory dark:hover:bg-[#36312B] transition-all cursor-pointer relative"
             title="Notifications"
           >
-            <Bell className="w-4 h-4 text-[#7A1F2B]" />
+            <Bell className="w-5 h-5 text-primary dark:text-rose-400" />
             {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 h-4 w-4 bg-[#7A1F2B] text-white font-extrabold text-[9px] rounded-full flex items-center justify-center ring-2 ring-[#F4F0E6]">
-                {unreadCount}
-              </span>
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full ring-2 ring-cream dark:ring-surface"></span>
             )}
           </button>
-
-          {/* Notifications Modal Popover */}
+          
           {showNotifications && (
-            <div className="absolute right-0 mt-3 w-84 bg-white border border-[#D8D0C1] rounded-2xl shadow-2xl p-4 z-50 animate-in fade-in zoom-in-95">
-              <div className="flex items-center justify-between pb-3 border-b border-[#D8D0C1]/60">
-                <div className="flex items-center gap-2">
-                  <h4 className="font-extrabold text-sm text-[#211E1A]">Notifications</h4>
-                  <span className="text-[10px] bg-[#7A1F2B]/10 text-[#7A1F2B] font-bold px-2 py-0.5 rounded-full">
-                    {unreadCount} New
-                  </span>
-                </div>
+            <div className="absolute right-0 mt-2 w-80 bg-cream dark:bg-surface border border-sand dark:border-outline-variant rounded-xl shadow-xl py-1 z-50 animate-fade-in">
+              <div className="px-4 py-3 border-b border-sand dark:border-outline-variant flex items-center justify-between font-semibold text-[13px] text-espresso dark:text-bone">
+                <span>{t('common.notifications')}</span>
                 {unreadCount > 0 && (
                   <button
                     onClick={() => setUnreadCount(0)}
-                    className="text-[11px] font-semibold text-[#7A1F2B] hover:underline"
+                    className="text-[11px] font-semibold text-primary dark:text-rose-400 hover:underline cursor-pointer"
                   >
-                    Mark all read
+                    Clear badge
                   </button>
                 )}
               </div>
-
-              <div className="py-2 space-y-2.5 max-h-72 overflow-y-auto">
-                <div className="text-xs p-3 rounded-xl bg-[#F4F0E6]/70 border border-[#D8D0C1]/40 hover:bg-[#EAE3D5]/80 transition">
-                  <div className="flex items-center justify-between">
-                    <p className="font-bold text-[#211E1A]">Payout Requested</p>
-                    <span className="text-[9px] text-[#7A1F2B] font-bold">New</span>
-                  </div>
-                  <p className="text-[#756F66] mt-1 text-[11px]">
-                    Aarav Sharma submitted withdrawal request for <strong className="text-[#211E1A]">₹25,000</strong>.
-                  </p>
-                  <span className="text-[10px] text-[#756F66] mt-1.5 block">12 mins ago</span>
-                </div>
-              </div>
+              <ul className="divide-y divide-sand/50 dark:divide-outline-variant/50">
+                {notificationsList.map(notif => (
+                  <li key={notif.id} className="px-4 py-3 hover:bg-bone dark:hover:bg-[#211E1A] cursor-pointer transition-colors" onClick={() => triggerToast && triggerToast(`Clicked: ${notif.text}`)}>
+                    <p className={`text-[13px] text-espresso dark:text-bone ${notif.unread ? 'font-semibold' : ''}`}>{notif.text}</p>
+                    <span className="text-[11px] text-warm-gray mt-1 block">{notif.time}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
         </div>
 
-        {/* Divider */}
-        <div className="h-6 w-[1px] bg-[#D8D0C1]" />
+        {/* Dark Mode toggle */}
+        <button 
+          onClick={() => {
+            toggleDarkMode();
+            if (triggerToast) triggerToast(darkMode ? 'Light Mode Enabled' : 'Dark Mode Enabled', 'info');
+          }}
+          className="w-9 h-9 rounded-lg flex items-center justify-center text-warm-gray hover:text-espresso dark:hover:text-bone hover:bg-ivory dark:hover:bg-[#36312B] transition-all cursor-pointer"
+          title="Toggle Theme"
+        >
+          {darkMode ? (
+            <Sun className="w-5 h-5 text-gold" />
+          ) : (
+            <Moon className="w-5 h-5 text-warm-gray" />
+          )}
+        </button>
 
-        {/* Admin Profile Dropdown Button */}
+        {/* Language Switcher Button ("EN | हिंदी") */}
         <div className="relative">
-          <button
+          <button 
+            onClick={() => {
+              const targetLang = locale === 'en' ? 'hi' : 'en';
+              switchLanguage(targetLang);
+              if (triggerToast) triggerToast(`Language switched to ${targetLang === 'en' ? 'English' : 'हिंदी'}`);
+            }}
+            className="h-8 px-3 rounded-lg bg-bone dark:bg-[#211E1A] border border-sand dark:border-outline-variant hover:bg-ivory dark:hover:bg-[#36312B] text-[12px] font-semibold text-espresso dark:text-bone transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+            title="Switch Language / भाषा बदलें"
+          >
+            <Globe className="w-4 h-4 text-gold" />
+            <span>{locale === 'en' ? 'EN | हिंदी' : 'हिंदी | EN'}</span>
+          </button>
+        </div>
+
+        {/* Separator */}
+        <div className="w-px h-7 bg-sand dark:bg-outline-variant"></div>
+
+        {/* User Avatar & Admin Name */}
+        <div className="relative">
+          <div 
             onClick={() => {
               setShowUserDropdown(!showUserDropdown);
               setShowNotifications(false);
             }}
-            className="flex items-center gap-3 p-1.5 rounded-full hover:bg-white/80 border border-transparent hover:border-[#D8D0C1] transition cursor-pointer"
+            className="flex items-center gap-2.5 cursor-pointer group pl-1"
           >
-            <div className="relative">
-              <img
-                src={initialAdminProfile.avatar}
-                alt={initialAdminProfile.name}
-                className="w-10 h-10 rounded-full object-cover ring-2 ring-[#7A1F2B] shadow-sm"
-              />
-              <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full ring-2 ring-white" />
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary via-[#641722] to-[#4A1019] text-cream font-extrabold text-xs flex items-center justify-center ring-2 ring-gold/40 shadow-xs group-hover:ring-gold transition-all select-none overflow-hidden">
+              {adminProfile?.avatar && !adminProfile.avatar.includes('unsplash') ? (
+                <img 
+                  alt="Admin Avatar" 
+                  className="w-full h-full object-cover" 
+                  src={adminProfile.avatar}
+                />
+              ) : (
+                <span>{adminName ? adminName.charAt(0).toUpperCase() : 'A'}</span>
+              )}
             </div>
-            <div className="hidden sm:block text-left pr-1">
-              <h4 className="text-xs font-extrabold text-[#211E1A] leading-tight flex items-center gap-1">
-                <span>{initialAdminProfile.name}</span>
-                <ChevronDown className="w-3.5 h-3.5 text-[#756F66]" />
-              </h4>
-              <span className="text-[10px] text-[#7A1F2B] font-bold bg-[#7A1F2B]/10 px-1.5 py-0.2 rounded-md">
-                {initialAdminProfile.role}
-              </span>
+            <div className="hidden lg:block text-left">
+              <p className="text-[13px] font-semibold text-espresso dark:text-bone leading-tight">
+                {adminName}
+              </p>
+              <p className="text-[11px] text-warm-gray leading-tight">
+                {t('profile.administrator')}
+              </p>
             </div>
-          </button>
+            <ChevronDown className="w-4 h-4 text-warm-gray hidden lg:block" />
+          </div>
 
           {/* User Profile Dropdown Menu */}
           {showUserDropdown && (
-            <div className="absolute right-0 mt-3 w-56 bg-white border border-[#D8D0C1] rounded-2xl shadow-2xl p-2 z-50 animate-in fade-in zoom-in-95 space-y-1">
-              <div className="px-3 py-2 border-b border-[#D8D0C1]/50">
-                <p className="text-xs font-extrabold text-[#211E1A]">{initialAdminProfile.name}</p>
-                <p className="text-[10px] text-[#756F66]">{initialAdminProfile.email}</p>
+            <div className="absolute right-0 mt-3 w-56 bg-cream dark:bg-surface border border-sand dark:border-outline-variant rounded-xl shadow-xl p-2 z-50 animate-fade-in space-y-1">
+              <div className="px-3 py-2 border-b border-sand/50 dark:border-outline-variant/50">
+                <p className="text-xs font-extrabold text-espresso dark:text-bone">{adminName}</p>
+                <p className="text-[10px] text-warm-gray">{adminProfile?.email || initialAdminProfile.email}</p>
               </div>
 
-              <Link
-                href="/settings"
-                onClick={() => setShowUserDropdown(false)}
-                className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-[#211E1A] hover:bg-[#F4F0E6] transition"
+              <button
+                type="button"
+                onClick={() => {
+                  setRoute('profile');
+                  setShowUserDropdown(false);
+                }}
+                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold text-espresso dark:text-bone hover:bg-ivory dark:hover:bg-[#211E1A] transition text-left cursor-pointer"
               >
-                <User className="w-4 h-4 text-[#7A1F2B]" />
-                <span>Admin Profile</span>
-              </Link>
+                <User className="w-4 h-4 text-primary dark:text-rose-400" />
+                <span>{t('nav.profileSettings')}</span>
+              </button>
 
-              <Link
-                href="/settings"
-                onClick={() => setShowUserDropdown(false)}
-                className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-[#211E1A] hover:bg-[#F4F0E6] transition"
+              <button
+                type="button"
+                onClick={() => {
+                  setRoute('settings');
+                  setShowUserDropdown(false);
+                }}
+                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold text-espresso dark:text-bone hover:bg-ivory dark:hover:bg-[#211E1A] transition text-left cursor-pointer"
               >
-                <Settings className="w-4 h-4 text-[#7A1F2B]" />
-                <span>Platform Settings</span>
-              </Link>
+                <Settings className="w-4 h-4 text-primary dark:text-rose-400" />
+                <span>{t('nav.settings')}</span>
+              </button>
 
-              <div className="pt-1 border-t border-[#D8D0C1]/50">
+              <div className="pt-1 border-t border-sand/50 dark:border-outline-variant/50">
                 <button
                   onClick={handleLogOut}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-extrabold text-rose-700 hover:bg-rose-50 transition cursor-pointer"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-bold text-rose-700 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition cursor-pointer text-left"
                 >
-                  <LogOut className="w-4 h-4 text-rose-700" />
+                  <LogOut className="w-4 h-4" />
                   <span>{t('common.logOut')}</span>
                 </button>
               </div>

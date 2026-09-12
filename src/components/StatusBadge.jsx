@@ -5,7 +5,7 @@ import React from 'react';
 export default function StatusBadge({ status, type }) {
   const getBadgeStyle = () => {
     const val = (status || type || '').toLowerCase();
-    
+
     if (val === 'active' || val === 'approved' || val === 'completed') {
       return 'bg-emerald-100 text-emerald-800 border-emerald-300';
     }

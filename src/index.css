@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-background: #F4F0E6;         /* Bone / Warm off-white */
+  --color-on-background: #211E1A;      /* Espresso Black */
+  
+  --color-surface: #FBF9F4;             /* Soft Cream */
+  --color-on-surface: #211E1A;          /* Espresso Black */
+  --color-on-surface-variant: #756F66;  /* Warm Gray */
+  
+  --color-primary: #7D1F2B;             /* Deep Burgundy */
+  --color-on-primary: #FBF9F4;          /* Soft Cream text on Burgundy */
+  --color-primary-container: #7D1F2B;
+  --color-on-primary-container: #FBF9F4;
+  
+  --color-secondary: #756F66;           /* Warm Gray */
+  --color-on-secondary: #FBF9F4;
+  
+  --color-tertiary: #28553F;            /* Deep Forest Green */
+  --color-tertiary-container: #28553F;
+  --color-on-tertiary: #FBF9F4;
+  
+  --color-outline: #D8D0C1;             /* Sand border */
+  --color-outline-variant: #D8D0C1;
+  
+  --color-gold: #B8953D;                /* Antique Gold accent */
+  --color-forest: #28553F;              /* Deep Forest Green */
+  --color-espresso: #211E1A;            /* Espresso Black */
+  --color-warm-gray: #756F66;           /* Warm Gray */
+  --color-bone: #F4F0E6;                /* Bone */
+  --color-ivory: #EAE3D5;               /* Warm Ivory */
+  --color-cream: #FBF9F4;               /* Soft Cream */
+  --color-sand: #D8D0C1;                /* Sand */
+
+  --spacing-sidebar-width: 280px;
+
+  --font-body-md: "Inter", "Noto Sans Devanagari", sans-serif;
+}
+
+.dark {
+  --color-background: #211E1A;         /* Espresso Black */
+  --color-on-background: #F4F0E6;      /* Bone */
+  
+  --color-surface: #2B2722;             /* Warm dark brown/charcoal */
+  --color-on-surface: #F4F0E6;          /* Bone */
+  --color-on-surface-variant: #9B9487;  /* Warm Gray dim */
+  
+  --color-outline: #423C36;             /* Dark sand / charcoal border */
+  --color-outline-variant: #423C36;
+  
+  --color-primary: #7D1F2B;
+  --color-on-primary: #FBF9F4;
+  --color-secondary: #9B9487;
+  --color-tertiary: #4ade80;
+}
+
+/* Material Symbols config */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  vertical-align: middle;
+}
+.filled-icon {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-on-background);
+  margin: 0;
+  font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeInUp 0.3s ease-out both;
+}
+
+/* Card shadow */
+.shadow-card {
+  box-shadow: 0 1px 3px 0 rgba(33, 30, 26, 0.04), 0 1px 2px -1px rgba(33, 30, 26, 0.03);
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
